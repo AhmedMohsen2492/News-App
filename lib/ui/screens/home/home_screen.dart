@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_route/data/api/api_manager.dart';
+import 'package:news_route/ui/screens/home/tabs/categories/categories_tab.dart';
 import 'package:news_route/ui/screens/home/tabs/news/news_tab.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,9 +35,80 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          body: NewsTab(),
+          body: CategoriesTab(),
+          drawer: buildDrawerWidget(context),
         ),
       ],
+    );
+  }
+
+  Widget buildDrawerWidget(BuildContext context) {
+    return Drawer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.20,
+            color: Colors.green,
+            child: Center(
+              child: Text(
+                  "News App!",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ),
+          TextButton(
+              onPressed:(){} ,
+              child: Row(
+                children: [
+                  Icon(
+                      Icons.list,
+                    size: 35,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 10
+                  ),
+                  Text(
+                      "Categories",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+          ),
+          TextButton(
+            onPressed:(){} ,
+            child: Row(
+              children: [
+                Icon(
+                  Icons.settings,
+                  size: 35,
+                  color: Colors.black,
+                ),
+                SizedBox(
+                    width: 10
+                ),
+                Text(
+                  "Settings",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
