@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_route/data/api/api_manager.dart';
 import 'package:news_route/data/model/ArticlesResponse.dart';
@@ -18,7 +19,11 @@ class TabContent extends StatelessWidget {
             itemBuilder: (context, index) => buildNewsWidget(snapshot.data!.articles![index] , context),
           );
         }else if (snapshot.hasError){
-          return Text(snapshot.error.toString());
+          return Center(child: Text("Sorry No Data !!",style: TextStyle(
+            color: Colors.red[700],
+            fontWeight: FontWeight.bold,
+            fontSize: 40,
+          ),));
         }else {
           return Center(child: CircularProgressIndicator());
         }
@@ -32,12 +37,17 @@ class TabContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              height: MediaQuery.of(context).size.height *0.25,
-                fit: BoxFit.cover,
-                article.urlToImage??"https://awlights.com/wp-content/uploads/sites/31/2017/05/placeholder-news.jpg"),
+          SizedBox(
+            height: MediaQuery.of(context).size.height *0.25,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: CachedNetworkImage(
+                imageUrl: article.urlToImage ?? "",
+                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Image.network(
+                  "https://awlights.com/wp-content/uploads/sites/31/2017/05/placeholder-news.jpg",),
+              ),
+            ),
           ),
           SizedBox(height: 4,),
           Text(

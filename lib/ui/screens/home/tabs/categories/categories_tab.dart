@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news_route/data/model/category_dm.dart';
 
 class CategoriesTab extends StatefulWidget {
-  late CategoryDM categoryDM ;
+  Function(CategoryDM) onCategoryClick ;
+  CategoriesTab(this.onCategoryClick);
 
   @override
   State<CategoriesTab> createState() => _CategoriesTabState();
@@ -32,9 +33,8 @@ class _CategoriesTabState extends State<CategoriesTab> {
                 ),
                 itemBuilder: (context, index) {
                   return InkWell(
-                      onTap: ()
-                      {
-
+                      onTap: () {
+                        widget.onCategoryClick(CategoryDM.categories[index]);
                       },
                       child: buildCategoryWidget(
                           CategoryDM.categories[index]
@@ -72,7 +72,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height * .16,
+              height: MediaQuery.of(context).size.height * .17,
               child: Image.asset(categoryDM.imagePath)),
           Text(categoryDM.title, style: TextStyle(color: Colors.white),),
           SizedBox(height: 4,),

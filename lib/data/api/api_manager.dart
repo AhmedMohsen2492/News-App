@@ -8,8 +8,11 @@ abstract class ApiManager {
   static String baseUrl = "newsapi.org" ;
   static String apiKey = "06113bb6ec544ddc83dac0645693f2a4" ;
 
-  static Future<List<Source>> getSources() async{
-    Uri url = Uri.parse("https://$baseUrl/v2/top-headlines/sources?apiKey=$apiKey");
+  static Future<List<Source>> getSources(String categoryId) async{
+    Uri url = Uri.https(baseUrl, "v2/top-headlines/sources" ,{
+      "apiKey" : apiKey,
+      "category" : categoryId,
+    });
     http.Response response = await http.get(url);
     Map json = jsonDecode(response.body);
     SourcesResponse sourcesResponse = SourcesResponse.fromJson(json);
@@ -35,7 +38,9 @@ abstract class ApiManager {
     && articlesResponse.articles?.isNotEmpty == true){
       return articlesResponse ;
     }
-    else {
+    else
+    {
+      print("Erorrrrrrrrrrrrr!!!!!!!!");
         throw Exception(articlesResponse.message);
     }
   }

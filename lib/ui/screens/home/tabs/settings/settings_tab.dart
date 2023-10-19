@@ -5,8 +5,18 @@ class SettingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.purple,
+    return Center(
+      child: Container(
+        color: Colors.transparent,
+        child: Text(
+            "Settings",
+          style: TextStyle(
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            color: Colors.black
+          ),
+        ),
+      ),
     );
   }
 }

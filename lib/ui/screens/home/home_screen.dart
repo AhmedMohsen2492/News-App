@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:news_route/data/api/api_manager.dart';
+import 'package:news_route/data/model/category_dm.dart';
 import 'package:news_route/ui/screens/home/tabs/categories/categories_tab.dart';
 import 'package:news_route/ui/screens/home/tabs/news/news_tab.dart';
+import 'package:news_route/ui/screens/home/tabs/settings/settings_tab.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static const routeName = "homeScreen" ;
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  CategoryDM? selectedCategory = null ;
+  late Widget selectedTab ;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedTab =  CategoriesTab(setSelectedCategory) ;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ApiManager.getSources();
     return Stack(
       children: [
         Image.asset(
@@ -17,32 +32,45 @@ class HomeScreen extends StatelessWidget {
             "assets/images/splash.png",
             fit: BoxFit.fill,
         ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.green,
-            title: Text(
-                "news tab",
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 22,
+        WillPopScope(
+          onWillPop: () async {
+            if(selectedTab is CategoriesTab){
+              return Future.value(true);
+            }
+            else
+            {
+              selectedTab = CategoriesTab(setSelectedCategory);
+              setState(() {});
+              return Future.value(false);
+            }
+          },
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.green,
+              title: Text(
+                  "news tab",
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 22,
+                ),
+              ),
+              centerTitle: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(30),
+                ),
               ),
             ),
-            centerTitle: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(30),
-              ),
-            ),
+            body: selectedTab,
+            drawer: buildDrawerWidget(),
           ),
-          body: CategoriesTab(),
-          drawer: buildDrawerWidget(context),
         ),
       ],
     );
   }
 
-  Widget buildDrawerWidget(BuildContext context) {
+  Widget buildDrawerWidget() {
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,7 +90,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           TextButton(
-              onPressed:(){} ,
+              onPressed:(){
+                selectedCategory = null ;
+                selectedTab = CategoriesTab(setSelectedCategory);
+                Navigator.pop(context);
+                setState(() {});
+              } ,
               child: Row(
                 children: [
                   Icon(
@@ -85,7 +118,11 @@ class HomeScreen extends StatelessWidget {
               ),
           ),
           TextButton(
-            onPressed:(){} ,
+            onPressed:(){
+              selectedTab = SettingsTab();
+              Navigator.pop(context);
+              setState(() {});
+            } ,
             child: Row(
               children: [
                 Icon(
@@ -110,5 +147,12 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void setSelectedCategory(CategoryDM categoryDM){
+    selectedCategory = categoryDM;
+    selectedTab = NewsTab(selectedCategory!);
+    setState(() {});
+    print("${selectedCategory?.title}");
   }
 }

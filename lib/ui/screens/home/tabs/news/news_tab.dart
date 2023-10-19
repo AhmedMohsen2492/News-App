@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:news_route/data/api/api_manager.dart';
 import 'package:news_route/data/model/SourcesResponse.dart';
+import 'package:news_route/data/model/category_dm.dart';
 import 'package:news_route/ui/screens/home/tabs/news/tab_content.dart';
 
 class NewsTab extends StatefulWidget {
+  CategoryDM selectedCategory;
+
+  NewsTab(this.selectedCategory);
+
   @override
   State<NewsTab> createState() => _NewsTabState();
 }
@@ -14,7 +19,7 @@ class _NewsTabState extends State<NewsTab> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ApiManager.getSources(),
+      future: ApiManager.getSources(widget.selectedCategory.id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return buildNewsTab(snapshot.data!);
