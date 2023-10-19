@@ -1,27 +1,26 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:news_route/data/api/api_manager.dart';
 import 'package:news_route/data/model/SourcesResponse.dart';
+import 'package:news_route/ui/screens/home/tabs/news/tab_content.dart';
 
 class NewsTab extends StatefulWidget {
-
   @override
   State<NewsTab> createState() => _NewsTabState();
 }
 
 class _NewsTabState extends State<NewsTab> {
-  int currentTabIndex = 0 ;
+  int currentTabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: ApiManager.getSources(),
       builder: (context, snapshot) {
-        if(snapshot.hasData){
+        if (snapshot.hasData) {
           return buildNewsTab(snapshot.data!);
-        }else if (snapshot.hasError){
+        } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
-        }else{
+        } else {
           return Center(child: CircularProgressIndicator());
         }
       },
@@ -32,21 +31,31 @@ class _NewsTabState extends State<NewsTab> {
     return DefaultTabController(
       length: list.length,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 12,
+          ),
           TabBar(
-            onTap: (value){
-              currentTabIndex = value ;
+            onTap: (value) {
+              currentTabIndex = value;
               setState(() {});
             },
             indicatorColor: Colors.transparent,
             isScrollable: true,
-              tabs: list.map((singleSource) => buildTabWidget(singleSource.name??"",
-                  currentTabIndex == list.indexOf(singleSource))).toList(),
+            tabs: list
+                .map((singleSource) => buildTabWidget(singleSource.name ?? "",
+                    currentTabIndex == list.indexOf(singleSource)))
+                .toList(),
+          ),
+          SizedBox(
+            height: 8,
           ),
           Expanded(
             child: TabBarView(
-                children: list.map((singleSource) => Container(color: Colors.green)).toList(),
+              children: list
+                  .map((singleSource) => TabContent(singleSource))
+                  .toList(),
             ),
           ),
         ],
@@ -54,18 +63,18 @@ class _NewsTabState extends State<NewsTab> {
     );
   }
 
-  Widget buildTabWidget(String name , bool isSelected){
+  Widget buildTabWidget(String name, bool isSelected) {
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color:  isSelected ? Colors.blue : Colors.white,
+        color: isSelected ? Colors.green : Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: Colors.blue),
+        border: Border.all(color: Colors.green,width: 2),
       ),
       child: Text(
         name,
         style: TextStyle(
-          color: Colors.black,
+          color: isSelected ? Colors.white :Colors.black,
         ),
       ),
     );

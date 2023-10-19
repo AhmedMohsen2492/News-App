@@ -9,11 +9,34 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ApiManager.getSources();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("news tab"),
-      ),
-      body: NewsTab(),
+    return Stack(
+      children: [
+        Image.asset(
+          width: double.infinity,
+            "assets/images/splash.png",
+            fit: BoxFit.fill,
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.green,
+            title: Text(
+                "news tab",
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 22,
+              ),
+            ),
+            centerTitle: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(30),
+              ),
+            ),
+          ),
+          body: NewsTab(),
+        ),
+      ],
     );
   }
 }
