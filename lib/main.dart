@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_route/ui/screens/home/home_screen.dart';
+import 'package:news_route/ui/screens/product%20details/product_details.dart';
+import 'package:news_route/ui/screens/web/webView_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +17,8 @@ class MyApp extends StatelessWidget {
       initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName : (_) => HomeScreen(),
+        ProductDetails.routeName : (_) => ProductDetails(),
+        WebViewScreen.routeName :(_)=> WebViewScreen(),
       },
     );
   }

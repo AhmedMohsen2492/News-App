@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:news_route/data/api/api_manager.dart';
 import 'package:news_route/data/model/ArticlesResponse.dart';
 import 'package:news_route/data/model/SourcesResponse.dart';
+import 'package:news_route/ui/screens/product%20details/product_details.dart';
 
 class TabContent extends StatelessWidget {
   Source source ;
   TabContent(this.source);
+  late Article selectedArticle ;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,16 @@ class TabContent extends StatelessWidget {
         if(snapshot.hasData){
           return ListView.builder(
             itemCount: snapshot.data!.articles!.length,
-            itemBuilder: (context, index) => buildNewsWidget(snapshot.data!.articles![index] , context),
+            itemBuilder: (context, index) => InkWell(
+              onTap: (){
+                selectedArticle = snapshot.data!.articles![index] ;
+                Navigator.pushNamed(
+                    context,
+                    ProductDetails.routeName,
+                  arguments: selectedArticle
+                );
+              },
+                child: buildNewsWidget(snapshot.data!.articles![index] , context)),
           );
         }else if (snapshot.hasError){
           return Center(child: Text("Sorry No Data !!",style: TextStyle(
