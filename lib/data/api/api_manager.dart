@@ -6,7 +6,7 @@ import 'package:news_route/data/model/SourcesResponse.dart';
 abstract class ApiManager {
 
   static String baseUrl = "newsapi.org" ;
-  static String apiKey = "06113bb6ec544ddc83dac0645693f2a4" ;
+  static String apiKey = "ab0e64eff1a44b1dbc0a94e5a003d278" ;
 
   static Future<List<Source>> getSources(String categoryId) async{
     Uri url = Uri.https(baseUrl, "v2/top-headlines/sources" ,{
@@ -44,4 +44,25 @@ abstract class ApiManager {
         throw Exception(articlesResponse.message);
     }
   }
+
+  static Future<ArticlesResponse> getSearchArticles(String q) async{
+    Uri url = Uri.https(baseUrl,"v2/everything", {
+      "apiKey" : apiKey,
+      "q" : q,
+    });
+    http.Response response = await http.get(url);
+    Map json = jsonDecode(response.body);
+    ArticlesResponse articlesResponse = ArticlesResponse.fromJson(json);
+    if(response.statusCode >=200 && response.statusCode<300
+        && articlesResponse.articles?.isNotEmpty == true){
+      return articlesResponse ;
+    }
+    else
+    {
+      print("Erorrrrrrrrrrrrr!!!!!!!!");
+      throw Exception(articlesResponse.message);
+    }
+  }
+
+
 }

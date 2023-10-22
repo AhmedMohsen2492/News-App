@@ -3,6 +3,7 @@ import 'package:news_route/data/model/category_dm.dart';
 import 'package:news_route/ui/screens/home/tabs/categories/categories_tab.dart';
 import 'package:news_route/ui/screens/home/tabs/news/news_tab.dart';
 import 'package:news_route/ui/screens/home/tabs/settings/settings_tab.dart';
+import 'package:news_route/ui/screens/search/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -60,6 +61,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               centerTitle: true,
+              actions: [
+                IconButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, SearchScreen.routeName);
+                    }, icon: Icon(
+                    Icons.search,
+                  size: 30,
+                )
+                ),
+              ],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(30),
