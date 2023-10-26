@@ -1,4 +1,4 @@
-import 'package:news_route/data/model/SourcesResponse.dart';
+import 'package:news_route/data/model/sources_response.dart';
 
 class ArticlesResponse {
   String? status;
@@ -7,12 +7,8 @@ class ArticlesResponse {
   String? code;
   String? message;
 
-  ArticlesResponse({
-      this.status, 
-      this.totalResults, 
-      this.articles,
-      this.code,
-      this.message});
+  ArticlesResponse(
+      {this.status, this.totalResults, this.articles, this.code, this.message});
 
   ArticlesResponse.fromJson(dynamic json) {
     status = json['status'];
@@ -49,14 +45,15 @@ class Article {
   String? content;
 
   Article({
-      this.source, 
-      this.author, 
-      this.title, 
-      this.description, 
-      this.url, 
-      this.urlToImage, 
-      this.publishedAt, 
-      this.content,});
+    this.source,
+    this.author,
+    this.title,
+    this.description,
+    this.url,
+    this.urlToImage,
+    this.publishedAt,
+    this.content,
+  });
 
   Article.fromJson(dynamic json) {
     source = json['source'] != null ? Source.fromJson(json['source']) : null;

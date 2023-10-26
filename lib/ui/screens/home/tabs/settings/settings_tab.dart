@@ -8,13 +8,10 @@ class SettingsTab extends StatelessWidget {
     return Center(
       child: Container(
         color: Colors.transparent,
-        child: Text(
-            "Settings",
+        child: const Text(
+          "Settings",
           style: TextStyle(
-            fontSize: 50,
-            fontWeight: FontWeight.bold,
-            color: Colors.black
-          ),
+              fontSize: 50, fontWeight: FontWeight.bold, color: Colors.black),
         ),
       ),
     );

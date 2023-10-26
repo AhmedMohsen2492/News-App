@@ -4,11 +4,7 @@ class SourcesResponse {
   String? code;
   String? message;
 
-  SourcesResponse({
-    this.status,
-    this.sources,
-    this.code,
-    this.message});
+  SourcesResponse({this.status, this.sources, this.code, this.message});
 
   SourcesResponse.fromJson(dynamic json) {
     status = json['status'];
@@ -33,13 +29,14 @@ class Source {
   String? country;
 
   Source({
-      this.id, 
-      this.name, 
-      this.description, 
-      this.url, 
-      this.category, 
-      this.language, 
-      this.country,});
+    this.id,
+    this.name,
+    this.description,
+    this.url,
+    this.category,
+    this.language,
+    this.country,
+  });
 
   Source.fromJson(dynamic json) {
     id = json['id'];
