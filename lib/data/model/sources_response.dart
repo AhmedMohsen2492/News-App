@@ -1,7 +1,14 @@
-class SourcesResponse {
+import 'package:hive/hive.dart';
+
+@HiveType(typeId: 0)
+class SourcesResponse extends HiveObject {
+  @HiveField(0)
   String? status;
+  @HiveField(1)
   List<Source>? sources;
+  @HiveField(2)
   String? code;
+  @HiveField(3)
   String? message;
 
   SourcesResponse({this.status, this.sources, this.code, this.message});
@@ -16,6 +23,15 @@ class SourcesResponse {
         sources?.add(Source.fromJson(v));
       });
     }
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map["status"] = status;
+    if (sources != null) {
+      map["sources"] = sources?.map((v) => v.toJson()).toList();
+    }
+    return map;
   }
 }
 

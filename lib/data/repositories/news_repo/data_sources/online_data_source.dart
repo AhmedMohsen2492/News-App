@@ -3,12 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:news_route/data/model/articles_response.dart';
 import 'package:news_route/data/model/sources_response.dart';
 
-abstract class ApiManager {
-  static String baseUrl = "newsapi.org";
+class OnlineDataSource {
+  static const String baseUrl = "newsapi.org";
+  static const String apiKey = "ab0e64eff1a44b1dbc0a94e5a003d278";
 
-  static String apiKey = "ab0e64eff1a44b1dbc0a94e5a003d278";
-
-  static Future<List<Source>> getSources(String categoryId) async {
+  Future<SourcesResponse> getSources(String categoryId) async {
     Uri url = Uri.https(baseUrl, "v2/top-headlines/sources", {
       "apiKey": apiKey,
       "category": categoryId,
@@ -19,13 +18,13 @@ abstract class ApiManager {
     if (response.statusCode >= 200 &&
         response.statusCode < 300 &&
         sourcesResponse.sources?.isNotEmpty == true) {
-      return sourcesResponse.sources!;
+      return sourcesResponse;
     } else {
       throw Exception(sourcesResponse.message);
     }
   }
 
-  static Future<ArticlesResponse> getArticles(String sourceId) async {
+  Future<ArticlesResponse> getArticles(String sourceId) async {
     Uri url = Uri.https(baseUrl, "v2/everything", {
       "apiKey": apiKey,
       "sources": sourceId,
@@ -42,7 +41,7 @@ abstract class ApiManager {
     }
   }
 
-  static Future<ArticlesResponse> getSearchArticles(String q) async {
+  Future<ArticlesResponse> getSearchArticles(String q) async {
     Uri url = Uri.https(baseUrl, "v2/everything", {
       "apiKey": apiKey,
       "q": q,

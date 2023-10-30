@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_route/data/api/api_manager.dart';
+import 'package:news_route/data/repositories/news_repo/data_sources/online_data_source.dart';
 import 'package:news_route/data/model/articles_response.dart';
 import 'package:news_route/ui/screens/product%20details/product_details.dart';
 
@@ -15,7 +15,7 @@ class SearchContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ApiManager.getSearchArticles(searchText),
+      future: OnlineDataSource().getSearchArticles(searchText),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Expanded(
