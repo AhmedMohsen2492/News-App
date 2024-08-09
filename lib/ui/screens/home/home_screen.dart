@@ -6,21 +6,22 @@ import 'package:news_route/ui/screens/home/tabs/settings/settings_tab.dart';
 import 'package:news_route/ui/screens/search/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  static const routeName = "homeScreen" ;
+  const HomeScreen({super.key});
+  static const routeName = "homeScreen";
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  CategoryDM? selectedCategory = null ;
-  late Widget selectedTab ;
+  CategoryDM? selectedCategory;
+
+  late Widget selectedTab;
 
   @override
   void initState() {
     super.initState();
-    selectedTab =  CategoriesTab(setSelectedCategory) ;
+    selectedTab = CategoriesTab(setSelectedCategory);
   }
 
   @override
@@ -29,16 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Image.asset(
           width: double.infinity,
-            "assets/images/splash.png",
-            fit: BoxFit.fill,
+          "assets/images/bg.png",
+          fit: BoxFit.fill,
         ),
         WillPopScope(
           onWillPop: () async {
-            if(selectedTab is CategoriesTab){
+            if (selectedTab is CategoriesTab) {
               return Future.value(true);
-            }
-            else
-            {
+            } else {
               selectedTab = CategoriesTab(setSelectedCategory);
               setState(() {});
               return Future.value(false);
@@ -49,13 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               backgroundColor: Colors.green,
               title: Text(
-                selectedTab is CategoriesTab ?
-                  "News App" :
-                selectedTab is NewsTab ?
-                "${selectedCategory!.title.toString()}" :
-                 selectedTab is SettingsTab ? "Settings" :
-                "",
-                style: TextStyle(
+                selectedTab is CategoriesTab
+                    ? "News App"
+                    : selectedTab is NewsTab
+                        ? selectedCategory!.title.toString()
+                        : selectedTab is SettingsTab
+                            ? "Settings"
+                            : "",
+                style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 22,
                 ),
@@ -63,15 +63,16 @@ class _HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               actions: [
                 IconButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pushNamed(context, SearchScreen.routeName);
-                    }, icon: Icon(
-                    Icons.search,
-                  size: 30,
-                )
-                ),
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      size: 25,
+                      color: Colors.black,
+                    )),
               ],
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(30),
                 ),
@@ -93,61 +94,56 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: MediaQuery.of(context).size.height * 0.20,
             color: Colors.green,
-            child: Center(
+            child: const Center(
               child: Text(
-                  "News App!",
+                "News App!",
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold
-                ),
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
           TextButton(
-              onPressed:(){
-                selectedCategory = null ;
-                selectedTab = CategoriesTab(setSelectedCategory);
-                Navigator.pop(context);
-                setState(() {});
-              } ,
-              child: Row(
-                children: [
-                  Icon(
-                      Icons.list,
-                    size: 35,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 10
-                  ),
-                  Text(
-                      "Categories",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-          ),
-          TextButton(
-            onPressed:(){
-              selectedTab = SettingsTab();
+            onPressed: () {
+              selectedCategory = null;
+              selectedTab = CategoriesTab(setSelectedCategory);
               Navigator.pop(context);
               setState(() {});
-            } ,
-            child: Row(
+            },
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.list,
+                  size: 35,
+                  color: Colors.black,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "Categories",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              selectedTab = const SettingsTab();
+              Navigator.pop(context);
+              setState(() {});
+            },
+            child: const Row(
               children: [
                 Icon(
                   Icons.settings,
                   size: 35,
                   color: Colors.black,
                 ),
-                SizedBox(
-                    width: 10
-                ),
+                SizedBox(width: 10),
                 Text(
                   "Settings",
                   style: TextStyle(
@@ -164,10 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void setSelectedCategory(CategoryDM categoryDM){
+  void setSelectedCategory(CategoryDM categoryDM) {
     selectedCategory = categoryDM;
     selectedTab = NewsTab(selectedCategory!);
     setState(() {});
-    print("${selectedCategory?.title}");
   }
 }
