@@ -13,6 +13,7 @@ The News App is a mobile application built using Flutter that allows users to ac
 ## Technologies Used
 - Flutter
 - Dart
+- Mvvm
 - News Api
 - Cubit (for state management)
 - Hive (for offline data storage)
