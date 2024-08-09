@@ -12,6 +12,7 @@ class TabContent extends StatelessWidget {
   TabContent(this.source, {super.key});
 
   late Article selectedArticle;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

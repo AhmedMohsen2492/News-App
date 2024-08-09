@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingsTab extends StatelessWidget {
-  const SettingsTab({Key? key}) : super(key: key);
+  const SettingsTab({super.key});
 
   @override
   Widget build(BuildContext context) {

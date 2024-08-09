@@ -1,10 +1,9 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_route/data/model/sources_response.dart';
 import 'package:news_route/data/model/category_dm.dart';
 import 'package:news_route/ui/screens/home/tabs/news/news_tab_view_model.dart';
 import 'package:news_route/ui/screens/home/tabs/news/tab_content.dart';
-import 'package:provider/provider.dart';
 
 class NewsTab extends StatefulWidget {
   CategoryDM selectedCategory;
@@ -28,29 +27,28 @@ class _NewsTabState extends State<NewsTab> {
   @override
   Widget build(BuildContext context) {
     Widget currentView;
-    return ChangeNotifierProvider(
-        create: (_) => newsTabViewModel,
-        child: Consumer<NewsTabViewModel>(
-          builder: (context, viewModel, _) {
-            if (viewModel.isLoading) {
-              currentView = const Center(child: CircularProgressIndicator());
-            } else if (viewModel.sources.isNotEmpty) {
-              currentView = buildNewsTab(viewModel.sources);
-            } else {
-              currentView = Center(
-                child: Text(
-                  "${viewModel.errorText}",
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-              );
-            }
-            return currentView;
-          },
-        ));
+    return BlocBuilder<NewsTabViewModel, NewTabStates>(
+      bloc: newsTabViewModel,
+      builder: (context, state) {
+        if (state is NewsTabLoadingState) {
+          currentView = const Center(child: CircularProgressIndicator());
+        } else if (state is NewsTabSuccessState) {
+          currentView = buildNewsTab(state.sources);
+        } else {
+          currentView = Center(
+            child: Text(
+              (state as NewsTabErrorState).errorMessage,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          );
+        }
+        return currentView;
+      },
+    );
   }
 
   Widget buildNewsTab(List<Source> list) {
@@ -67,7 +65,9 @@ class _NewsTabState extends State<NewsTab> {
               currentTabIndex = value;
               setState(() {});
             },
+            tabAlignment: TabAlignment.start,
             indicatorColor: Colors.transparent,
+            dividerColor: Colors.transparent,
             isScrollable: true,
             tabs: list
                 .map((singleSource) => buildTabWidget(singleSource.name ?? "",

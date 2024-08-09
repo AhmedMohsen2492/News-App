@@ -32,7 +32,7 @@ class ProductDetails extends StatelessWidget {
         children: [
           Image.asset(
             width: double.infinity,
-            "assets/images/splash.png",
+            "assets/images/bg.png",
             fit: BoxFit.fill,
           ),
           Padding(

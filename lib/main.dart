@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:news_route/ui/screens/home/home_screen.dart';
 import 'package:news_route/ui/screens/product%20details/product_details.dart';
 import 'package:news_route/ui/screens/search/search_screen.dart';
+import 'package:news_route/ui/screens/splash/splash_screen.dart';
 import 'package:news_route/ui/screens/web/web_view_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,12 +22,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
-        HomeScreen.routeName : (_) => const HomeScreen(),
-        ProductDetails.routeName : (_) => const ProductDetails(),
-        WebViewScreen.routeName :(_)=> WebViewScreen(),
-        SearchScreen.routeName :(_) => const SearchScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
+        ProductDetails.routeName: (_) => const ProductDetails(),
+        WebViewScreen.routeName: (_) => WebViewScreen(),
+        SearchScreen.routeName: (_) => const SearchScreen(),
+        SplashScreen.routeName: (_) => const SplashScreen(),
       },
     );
   }

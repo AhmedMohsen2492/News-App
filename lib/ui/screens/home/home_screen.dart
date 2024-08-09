@@ -6,7 +6,7 @@ import 'package:news_route/ui/screens/home/tabs/settings/settings_tab.dart';
 import 'package:news_route/ui/screens/search/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
   static const routeName = "homeScreen";
 
   @override
@@ -26,64 +26,63 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: [
-          Image.asset(
-            width: double.infinity,
-            "assets/images/splash.png",
-            fit: BoxFit.fill,
-          ),
-          WillPopScope(
-            onWillPop: () async {
-              if (selectedTab is CategoriesTab) {
-                return Future.value(true);
-              } else {
-                selectedTab = CategoriesTab(setSelectedCategory);
-                setState(() {});
-                return Future.value(false);
-              }
-            },
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.green,
-                title: Text(
-                  selectedTab is CategoriesTab
-                      ? "News App"
-                      : selectedTab is NewsTab
-                          ? selectedCategory!.title.toString()
-                          : selectedTab is SettingsTab
-                              ? "Settings"
-                              : "",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 22,
-                  ),
-                ),
-                centerTitle: true,
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, SearchScreen.routeName);
-                      },
-                      icon: const Icon(
-                        Icons.search,
-                        size: 30,
-                      )),
-                ],
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(30),
-                  ),
+    return Stack(
+      children: [
+        Image.asset(
+          width: double.infinity,
+          "assets/images/bg.png",
+          fit: BoxFit.fill,
+        ),
+        WillPopScope(
+          onWillPop: () async {
+            if (selectedTab is CategoriesTab) {
+              return Future.value(true);
+            } else {
+              selectedTab = CategoriesTab(setSelectedCategory);
+              setState(() {});
+              return Future.value(false);
+            }
+          },
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.green,
+              title: Text(
+                selectedTab is CategoriesTab
+                    ? "News App"
+                    : selectedTab is NewsTab
+                        ? selectedCategory!.title.toString()
+                        : selectedTab is SettingsTab
+                            ? "Settings"
+                            : "",
+                style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 22,
                 ),
               ),
-              body: selectedTab,
-              drawer: buildDrawerWidget(),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, SearchScreen.routeName);
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      size: 25,
+                      color: Colors.black,
+                    )),
+              ],
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(30),
+                ),
+              ),
             ),
+            body: selectedTab,
+            drawer: buildDrawerWidget(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

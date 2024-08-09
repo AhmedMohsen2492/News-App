@@ -6,14 +6,16 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 class NewsRepo {
   OfflineDataSource offlineDataSource;
   OnlineDataSource onlineDataSource;
+
   NewsRepo(this.onlineDataSource, this.offlineDataSource);
 
   Future<SourcesResponse?> getSources(String categoryId) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile) {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
       SourcesResponse response = await onlineDataSource.getSources(categoryId);
-      offlineDataSource.saveSources(response,categoryId);
+      offlineDataSource.saveSources(response, categoryId);
       return response;
     } else {
       return offlineDataSource.getSources(categoryId);
